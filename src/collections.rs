@@ -11,15 +11,15 @@ fn vectors() {
     let second : &i32 = &v[1];
 
     match v.get(1) {
-        Some(second) => println!(second),
+        Some(s) => println!("{}", second),
         None => println!("No item at {} index", 1),
     }
 
     // iterating over values
 
     // immutable
-    for i in v {
-        println!(v[i])
+    for i in &v {
+        println!("{}" , i)
     }
 
     //mutable
@@ -45,7 +45,7 @@ fn strings() {
 
     // iterate in a string
     for c in res.chars() {
-        println!(c)
+        println!("{}", c)
     }
 }
 
@@ -59,7 +59,7 @@ fn hash_map() {
     scores.insert("Blue", 6);
 
     // accessing elements
-    let team_name = String::from("Blue");
+    let team_name = "Blue";
     let score = scores.get(&team_name);
 
     // iterating over elements

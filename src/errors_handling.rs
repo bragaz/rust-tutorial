@@ -1,14 +1,21 @@
 use std::fs::File;
 use std::io::ErrorKind;
+use std::io;
+use std::io::Read;
 
-fn errors_with_Result() {
+
+fn errors() {
     let f = File::open("hello.txt") ;
 
     // handle errors without distinguish them
     let f = match f {
         Ok(file) => file,
-        Err(err) => panic!("The file doesn't exist {:?}", err),
+        Err(err) => panic!("The file doesn't exist: {:?}", err),
     };
+}
+
+fn errors_with_type() {
+    let f = File::open("hello.txt") ;
 
     // handle different errors with match
     let f = match f {
@@ -22,9 +29,10 @@ fn errors_with_Result() {
                 panic!("Problem opening the file: {:?}", other_error)
             }
         },
-        _ => {}
     };
+}
 
+fn errors_with_closures() {
     // handle errors with closures
     let f = File::open("hello.txt").unwrap_or_else(|error| {
         if error.kind() == ErrorKind::NotFound {
@@ -37,16 +45,11 @@ fn errors_with_Result() {
     });
 
     // handle errors with wrap (returns the object itself or an error)
-    let f = File::open("hello.txt").unwrap();
+    let f1 = File::open("hello.txt").unwrap();
 
     //handle errors with expect (let you choose the panic message)
-    let f = File::open("hello.txt").expect("failed to open the file");
-
-
+    let f2 = File::open("hello.txt").expect("failed to open the file");
 }
-
-use std::io;
-use std::io::Read;
 
 fn errors_propagation() -> Result<String, io::Error>{
     let f = File::open("hello.txt");
